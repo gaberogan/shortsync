@@ -1,26 +1,15 @@
-import { createSignal } from 'solid-js'
+import { lazy } from 'solid-js'
 import { render } from 'solid-js/web'
+import { Route, Router } from '@solidjs/router'
+import Layout from './components/Layout'
+import Home from './pages/home'
 import './global.css'
 
-const App = () => {
-  const [counter, setCounter] = createSignal(0)
-
+render(() => {
   return (
-    <div>
-      <h1>ShortSync</h1>
-      <div class="card">
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            setCounter(counter() + 1)
-          }}
-        >
-          count is {counter()}
-        </button>
-      </div>
-      <p class="read-the-docs">Click on the Vite and Solid logos to learn more</p>
-    </div>
+    <Router root={Layout}>
+      <Route path="/" component={Home} />
+      <Route path="**" component={lazy(() => import('./pages/404'))} />
+    </Router>
   )
-}
-
-render(() => <App />, document.getElementById('app') as HTMLElement)
+}, document.getElementById('app') as HTMLElement)
