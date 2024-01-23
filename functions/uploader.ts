@@ -1,4 +1,4 @@
-export async function onRequest() {
+export async function onRequestPost() {
   const url = 'https://postman-echo.com/post'
 
   const headers = {
