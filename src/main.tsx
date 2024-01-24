@@ -4,11 +4,15 @@ import { Route, Router } from '@solidjs/router'
 import Layout from './components/Layout'
 import Home from './pages/home'
 import './global.css'
+import Privacy from './pages/privacy'
+import Terms from './pages/terms'
 
 render(() => {
   return (
     <Router root={Layout}>
       <Route path="/" component={Home} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
       <Route path="**" component={lazy(() => import('./pages/404'))} />
     </Router>
   )
