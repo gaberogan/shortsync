@@ -2,16 +2,9 @@
 
 ShortSync App
 
-## Available scripts
+## Quick start
 
 ```bash
+npm install
 npm run dev
-```
-
-```bash
-npm run build
-```
-
-```bash
-npm run preview
 ```
