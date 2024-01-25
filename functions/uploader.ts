@@ -1,5 +1,5 @@
-import type { EventContext, Response as TResponse } from '@cloudflare/workers-types'
+import type { EventContext } from '@cloudflare/workers-types'
 
-export async function onRequest(ctx: EventContext<any, any, any>): Promise<TResponse> {
-  return new Response('hello world') as any
+export async function onRequest(ctx: EventContext<any, any, any>) {
+  return new Response('hello uploader')
 }
