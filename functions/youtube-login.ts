@@ -1,11 +1,11 @@
 import type { EventContext } from '@cloudflare/workers-types'
+import type { YouTubeClientConfig } from '../src/types/Youtube'
 
 // This follows YouTube's official OAuth 2.0 guide
 // See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps
 
 export async function onRequest(ctx: EventContext<any, any, any>) {
-  // TODO make YouTubeClientConfig type global
-  const clientConfig = JSON.parse(ctx.env.YOUTUBE_CLIENT_SECRET_JSON)
+  const clientConfig = JSON.parse(ctx.env.YOUTUBE_CLIENT_SECRET_JSON) as YouTubeClientConfig
 
   const loginUrl = getLoginUrl(clientConfig.web.client_id)
 

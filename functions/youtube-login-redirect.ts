@@ -1,4 +1,5 @@
 import type { EventContext } from '@cloudflare/workers-types'
+import type { YouTubeClientConfig } from '../src/types/Youtube'
 
 // This follows YouTube's official OAuth 2.0 guide
 // See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps
@@ -25,17 +26,4 @@ export function onRequest(ctx: EventContext<any, any, any>) {
   // TODO store code in KV
 
   return Response.redirect(url.origin + '/settings', 302)
-}
-
-interface YouTubeClientConfig {
-  web: {
-    client_id: string
-    project_id: string
-    auth_uri: string
-    token_uri: string
-    auth_provider_x509_cert_url: string
-    client_secret: string
-    redirect_uris: string[]
-    javascript_origins: string[]
-  }
 }
