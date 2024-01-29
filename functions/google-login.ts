@@ -1,7 +1,8 @@
 import type { EventContext } from '@cloudflare/workers-types'
 import { verifyIdToken, getClientConfig } from '../src/backend/Google'
 import { uuid } from '@cfworker/uuid'
-import { User, upsert } from '../src/backend/DB'
+import { upsert } from '../src/backend/DB'
+import { User } from '../src/types/DB'
 
 export async function onRequest(ctx: EventContext<any, any, any>) {
   // @ts-ignore Make env a global variable

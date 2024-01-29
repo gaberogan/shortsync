@@ -1,4 +1,4 @@
-import { getAuthConfig } from '../src/backend/Youtube'
+import { getClientConfig } from '../src/backend/Google'
 
 // This follows YouTube's official OAuth 2.0 guide
 // See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps
@@ -6,7 +6,7 @@ import { getAuthConfig } from '../src/backend/Youtube'
 export async function onRequest() {
   // Get login URL
   const loginUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth')
-  loginUrl.searchParams.set('client_id', getAuthConfig().web.client_id)
+  loginUrl.searchParams.set('client_id', getClientConfig().web.client_id)
   loginUrl.searchParams.set('redirect_uri', env.ORIGIN + '/youtube-login-redirect')
   loginUrl.searchParams.set('response_type', 'code')
   loginUrl.searchParams.set('scope', 'https://www.googleapis.com/auth/youtube.upload')
