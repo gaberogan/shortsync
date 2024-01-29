@@ -33,7 +33,5 @@ export async function onRequest(ctx: EventContext<any, any, any>) {
     { table: 'user', conflictKey: 'email', updateFields: ['google_id', 'image', 'locale'] }
   )
 
-  // TODO create our own JWT that will last longer?
-
-  return new Response(JSON.stringify(user, null, 2))
+  return new Response(JSON.stringify(user))
 }

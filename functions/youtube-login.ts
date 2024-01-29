@@ -7,7 +7,7 @@ export async function onRequest() {
   // Get login URL
   const loginUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth')
   loginUrl.searchParams.set('client_id', getAuthConfig().web.client_id)
-  loginUrl.searchParams.set('redirect_uri', 'https://dev.shortsync.app/youtube-login-redirect')
+  loginUrl.searchParams.set('redirect_uri', env.ORIGIN + '/youtube-login-redirect')
   loginUrl.searchParams.set('response_type', 'code')
   loginUrl.searchParams.set('scope', 'https://www.googleapis.com/auth/youtube.upload')
   loginUrl.searchParams.set('access_type', 'offline')

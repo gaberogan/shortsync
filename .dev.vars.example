@@ -1,1 +1,8 @@
-YOUTUBE_CLIENT_SECRET_JSON=TODO
+# To generate client secret, see https://console.cloud.google.com/apis/api/youtube.googleapis.com/credentials
+YOUTUBE_CLIENT_SECRET_JSON=
+
+# Where the app is hosted
+ORIGIN=https://dev.shortsync.app
+
+# To generate secret, see https://www.grc.com/passwords.htm
+JWT_SECRET=

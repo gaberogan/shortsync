@@ -30,7 +30,7 @@ export const getAuthConfig = () => {
   let config: YouTubeClientConfig
 
   try {
-    config = JSON.parse(env.YOUTUBE_CLIENT_SECRET_JSON!)
+    config = JSON.parse(env.YOUTUBE_CLIENT_SECRET_JSON)
   } catch (e) {
     throw new Error('env.YOUTUBE_CLIENT_SECRET_JSON is not defined')
   }
