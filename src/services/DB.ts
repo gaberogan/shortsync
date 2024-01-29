@@ -16,36 +16,50 @@ export type User = {
 }
 
 /**
+ * Upsert data to a table with a given conflict key
+ */
+export const upsert = <T extends Record<string, unknown>>(
+  data: T,
+  { table, conflictKey, updateFields }: { table: string; conflictKey: string; updateFields?: string[] }
+) => {
+  return first<T>(
+    GenerateQuery<T>(
+      QueryType.UPSERT,
+      table,
+      {
+        data: data,
+        upsertOnlyUpdateData: updateFields && filterObjectByKeys(data, updateFields),
+        where: { [conflictKey]: data[conflictKey] } as Partial<T>,
+      },
+      conflictKey
+    )
+  )
+}
+
+/**
  * Run query and return all data and metadata
  */
-export const all = (stmt: Statement) => {
+const all = (stmt: Statement) => {
   return env.DB.prepare(stmt.query).bind(stmt.bindings).all()
 }
 
 /**
  * Run query and return only metadata. Ideal for UPDATE, DELETE or INSERT
  */
-export const run = (stmt: Statement) => {
+const first = <T>(stmt: Statement) => {
+  return env.DB.prepare(stmt.query).bind(stmt.bindings).first() as Promise<T>
+}
+
+/**
+ * Run query and return only metadata. Ideal for UPDATE, DELETE or INSERT
+ */
+const run = (stmt: Statement) => {
   return env.DB.prepare(stmt.query).bind(stmt.bindings).all()
 }
 
 /**
- * Upsert data to a table with a given conflict key
+ * Helper function to filter object by keys
  */
-export const upsert = <T extends Record<string, unknown>>(
-  data: T,
-  { table, conflictKey }: { table: string; conflictKey: string }
-) => {
-  return run(
-    GenerateQuery<T>(
-      QueryType.UPSERT,
-      table,
-      {
-        data: data,
-        upsertOnlyUpdateData: data,
-        where: { [conflictKey]: data[conflictKey] } as Partial<T>,
-      },
-      conflictKey
-    )
-  )
+const filterObjectByKeys = <T extends Record<string, unknown>>(obj: T, keys: string[]) => {
+  return Object.fromEntries(Object.entries(obj).filter(([key]) => keys.includes(key))) as Partial<T>
 }

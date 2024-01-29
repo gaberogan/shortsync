@@ -19,7 +19,8 @@ export async function onRequest(ctx: EventContext<any, any, any>) {
     clientId: getAuthConfig().web.client_id,
   })
 
-  await upsert<User>(
+  // Create/update the user
+  const user = await upsert<User>(
     {
       id: uuid(),
       google_id: payload.sub as string,
@@ -29,8 +30,10 @@ export async function onRequest(ctx: EventContext<any, any, any>) {
       last_name: payload.family_name as string,
       locale: payload.locale as string,
     },
-    { table: 'user', conflictKey: 'google_id' }
+    { table: 'user', conflictKey: 'email', updateFields: ['google_id', 'image', 'locale'] }
   )
 
-  return new Response(JSON.stringify(payload, null, 2))
+  // TODO create our own JWT that will last longer?
+
+  return new Response(JSON.stringify(user, null, 2))
 }

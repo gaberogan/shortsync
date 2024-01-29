@@ -1,14 +1,14 @@
 // Based on https://github.com/kriasoft/web-auth-library/issues/17
 
 import { assert } from './assert'
-import { decodeProtectedHeader, jwtVerify } from 'jose'
-import { importX509 } from 'jose'
+import { decodeProtectedHeader, jwtVerify, importX509 } from 'jose'
 
 /**
  * Based on https://www.npmjs.com/package/web-auth-library?activeTab=code
  * Made to check per Google's recommendations: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+ * TODO use a cache to save 25ms per request
  */
-export async function verifyIdToken(options: any = {}) {
+export const verifyIdToken = async (options: any = {}) => {
   const { idToken, clientId } = options
 
   assert(idToken, 'Missing "idToken"')
@@ -45,7 +45,7 @@ export async function verifyIdToken(options: any = {}) {
  * Imports a public key for the provided Google Cloud (GCP) service account credentials.
  * @throws {FetchError} - If the X.509 certificate could not be fetched.
  */
-async function importPublicKey(options: any = {}) {
+const importPublicKey = async (options: any = {}) => {
   const { keyId, certificateURL } = options
 
   assert(keyId, 'Missing "keyId"')
@@ -58,12 +58,12 @@ async function importPublicKey(options: any = {}) {
   if (!res.ok) {
     const error = await res
       .json()
-      .then((data) => data.error.message)
+      .then((data: any) => data.error.message)
       .catch(() => undefined)
     throw new Error(error ?? "Failed to fetch Google's public key")
   }
 
-  const data = await res.json()
+  const data: any = await res.json()
   const x509 = data[keyId]
   if (!x509) {
     throw new Error(`Public key "${keyId}" not found.`)

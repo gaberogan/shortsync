@@ -11,10 +11,9 @@ const initialized = loadScript('https://accounts.google.com/gsi/client').then(()
     client_id: '246222106209-qsh9tk43lr0do4k8eppfc5dfc9nldhj2.apps.googleusercontent.com',
     context: 'use',
     ux_mode: 'popup',
-    callback: ({ credential }) => {
-      fetch(`/google-signup?token=${credential}`)
-        .then((x) => x.text())
-        .then((x) => console.log('JWT:' + x))
+    callback: async ({ credential }) => {
+      const user = await fetch(`/google-signup?token=${credential}`).then((x) => x.text())
+      // TODO store the credential
     },
     cancel_on_tap_outside: false,
     itp_support: true,
@@ -44,7 +43,7 @@ export const renderGoogleSignIn = async (el: HTMLElement, options: GoogleSignInO
   })
 }
 
-export function GoogleSignInButton(props: GoogleSignInOptions) {
+export const GoogleSignInButton = (props: GoogleSignInOptions) => {
   let googleSignInEl: HTMLDivElement | undefined
 
   onMount(() => {
