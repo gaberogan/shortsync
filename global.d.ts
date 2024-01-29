@@ -1,6 +1,6 @@
 interface Env {
   DB: import('@cloudflare/workers-types').D1Database
-  YOUTUBE_CLIENT_SECRET_JSON: string
+  GOOGLE_CLIENT_SECRET_JSON: string
   ORIGIN: string
   [key: string]: string | null
 }

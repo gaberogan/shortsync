@@ -1,7 +1,32 @@
 // Based on https://github.com/kriasoft/web-auth-library/issues/17
 
-import { assert } from './assert'
+import { assert } from '../shared/assert'
 import { decodeProtectedHeader, jwtVerify, importX509 } from 'jose'
+
+export interface GoogleClientConfig {
+  web: {
+    client_id: string
+    project_id: string
+    auth_uri: string
+    token_uri: string
+    auth_provider_x509_cert_url: string
+    client_secret: string
+    redirect_uris: string[]
+    javascript_origins: string[]
+  }
+}
+
+export const getClientConfig = () => {
+  let config: GoogleClientConfig
+
+  try {
+    config = JSON.parse(env.GOOGLE_CLIENT_SECRET_JSON)
+  } catch (e) {
+    throw new Error('env.GOOGLE_CLIENT_SECRET_JSON is not defined')
+  }
+
+  return config
+}
 
 /**
  * Based on https://www.npmjs.com/package/web-auth-library?activeTab=code

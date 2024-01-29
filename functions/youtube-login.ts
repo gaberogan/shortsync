@@ -1,4 +1,4 @@
-import { getAuthConfig } from '../src/services/Youtube'
+import { getAuthConfig } from '../src/backend/Youtube'
 
 // This follows YouTube's official OAuth 2.0 guide
 // See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps

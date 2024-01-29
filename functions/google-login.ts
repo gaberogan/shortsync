@@ -1,8 +1,7 @@
 import type { EventContext } from '@cloudflare/workers-types'
-import { getAuthConfig } from '../src/services/Youtube'
-import { verifyIdToken } from '../src/services/GoogleJWT'
+import { verifyIdToken, getClientConfig } from '../src/backend/Google'
 import { uuid } from '@cfworker/uuid'
-import { User, upsert } from '../src/services/DB'
+import { User, upsert } from '../src/backend/DB'
 
 export async function onRequest(ctx: EventContext<any, any, any>) {
   // @ts-ignore Make env a global variable
@@ -16,7 +15,7 @@ export async function onRequest(ctx: EventContext<any, any, any>) {
   const payload = await verifyIdToken({
     idToken: token,
     // Reuse our YouTube client_id, it's the same one
-    clientId: getAuthConfig().web.client_id,
+    clientId: getClientConfig().web.client_id,
   })
 
   // Create/update the user
@@ -33,5 +32,9 @@ export async function onRequest(ctx: EventContext<any, any, any>) {
     { table: 'user', conflictKey: 'email', updateFields: ['google_id', 'image', 'locale'] }
   )
 
-  return new Response(JSON.stringify(user))
+  return new Response(JSON.stringify(user), {
+    headers: {
+      'Set-Cookie': `token=${token}; path=/; secure; httponly; samesite=strict;`,
+    },
+  })
 }

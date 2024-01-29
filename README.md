@@ -12,7 +12,7 @@ npm install
 cp .dev.vars.example .dev.vars
 
 # Initialize backend database locally
-npx wrangler migrate
+sudo npm run migrate
 
 # Run dev server
 # sudo required to run on https://dev.shortsync.app without a port aka port 443

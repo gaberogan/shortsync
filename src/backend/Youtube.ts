@@ -1,15 +1,4 @@
-export interface YouTubeClientConfig {
-  web: {
-    client_id: string
-    project_id: string
-    auth_uri: string
-    token_uri: string
-    auth_provider_x509_cert_url: string
-    client_secret: string
-    redirect_uris: string[]
-    javascript_origins: string[]
-  }
-}
+import { getClientConfig } from './Google'
 
 export interface YouTubeTokenResponse {
   access_token: string
@@ -26,20 +15,8 @@ export interface YouTubeTokenRefreshResponse {
   scope: string
 }
 
-export const getAuthConfig = () => {
-  let config: YouTubeClientConfig
-
-  try {
-    config = JSON.parse(env.YOUTUBE_CLIENT_SECRET_JSON)
-  } catch (e) {
-    throw new Error('env.YOUTUBE_CLIENT_SECRET_JSON is not defined')
-  }
-
-  return config
-}
-
 export const getRefreshToken = async (authorizationCode: string) => {
-  const config = getAuthConfig()
+  const config = getClientConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
 
@@ -61,7 +38,7 @@ export const getRefreshToken = async (authorizationCode: string) => {
 }
 
 export const refreshAccessToken = async (refreshToken: string) => {
-  const config = getAuthConfig()
+  const config = getClientConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
 

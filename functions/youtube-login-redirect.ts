@@ -1,5 +1,5 @@
 import { EventContext } from '@cloudflare/workers-types'
-import { getRefreshToken } from '../src/services/Youtube'
+import { getRefreshToken } from '../src/backend/Youtube'
 
 // This follows YouTube's official OAuth 2.0 guide
 // See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps
