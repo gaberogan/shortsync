@@ -6,11 +6,13 @@ import Home from './pages/home'
 import './global.css'
 import Privacy from './pages/privacy'
 import Terms from './pages/terms'
+import Settings from './pages/settings'
 
 render(() => {
   return (
     <Router root={Layout}>
       <Route path="/" component={Home} />
+      <Route path="/settings" component={Settings} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="**" component={lazy(() => import('./pages/404'))} />

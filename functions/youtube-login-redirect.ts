@@ -1,29 +1,30 @@
-import type { EventContext } from '@cloudflare/workers-types'
-import type { YouTubeClientConfig } from '../src/types/Youtube'
+import { EventContext } from '@cloudflare/workers-types'
+import { getRefreshToken } from '../src/services/Youtube'
 
 // This follows YouTube's official OAuth 2.0 guide
 // See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps
 
-export function onRequest(ctx: EventContext<any, any, any>) {
+export async function onRequest(ctx: EventContext<any, any, any>) {
+  // @ts-ignore Make env a global variable
+  globalThis.env = ctx.env
+
   const url = new URL(ctx.request.url)
   const error = url.searchParams.get('error')
   const code = url.searchParams.get('code')
 
+  // Authentication failed
   if (error || !code) {
+    // TODO report the error?
     return new Response(`Failed to login, error: ${error}`)
   }
 
-  // TODO add to secrets in cloudflare
-  const clientConfig = JSON.parse(ctx.env.YOUTUBE_CLIENT_SECRET_JSON) as YouTubeClientConfig
+  // Exchange the authorization code for a refresh token
+  const refreshToken = await getRefreshToken(code)
 
-  const tokenUrl = new URL('https://oauth2.googleapis.com/token')
-  tokenUrl.searchParams.set('client_id', clientConfig.web.client_id)
-  tokenUrl.searchParams.set('client_secret', clientConfig.web.client_secret)
-  tokenUrl.searchParams.set('code', code)
-  tokenUrl.searchParams.set('grant_type', 'authorization_code')
-  tokenUrl.searchParams.set('redirect_uri', ctx.request.url) // TODO wait we have 2 callback urls?
-
-  // TODO store code in KV
+  // TODO need accounts for user ID
+  // TODO store refreshToken in D1
+  // const { result } = await env.DB.prepare("SELECT key").all() // or first
+  // await env.DB.prepare("UPDATE key=?").bind(value).all() // or run
 
   return Response.redirect(url.origin + '/settings', 302)
 }

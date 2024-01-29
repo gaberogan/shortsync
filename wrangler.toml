@@ -1,0 +1,6 @@
+compatibility_date = "2023-12-18"
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "shortsync-db"
+database_id = "da26bd1d-86a2-47ed-bb16-16dced45afdb"

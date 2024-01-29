@@ -6,19 +6,27 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "migrate": "wrangler d1 execute shortsync-db --file=./migrations/1.sql --local",
+    "migrate:prod": "wrangler d1 execute shortsync-db --file=./migrations/1.sql"
   },
   "devDependencies": {
+    "@cfworker/uuid": "^1.12.4",
     "@cloudflare/workers-types": "^4.20240117.0",
+    "@iarna/toml": "^2.2.5",
+    "@types/google.accounts": "^0.0.14",
+    "d1-orm": "^0.9.0",
+    "jose": "^5.2.0",
+    "npm": "^10.4.0",
     "typescript": "^4.6.4",
     "vite": "^5.0.12",
     "vite-plugin-mkcert": "^1.17.3",
+    "vite-plugin-solid": "^2.9.1",
     "wrangler": "^3.24.0"
   },
   "dependencies": {
     "@emotion/css": "^11.11.2",
     "@solidjs/router": "^0.10.9",
-    "solid-js": "^1.5.7",
-    "vite-plugin-solid": "^2.9.1"
+    "solid-js": "^1.5.7"
   }
 }
