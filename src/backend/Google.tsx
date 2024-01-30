@@ -16,7 +16,7 @@ export interface GoogleClientConfig {
   }
 }
 
-export const getClientConfig = () => {
+export const getGoogleConfig = () => {
   let config: GoogleClientConfig
 
   try {

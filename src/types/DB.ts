@@ -6,4 +6,5 @@ export type User = {
   first_name: string
   last_name: string
   locale: string
+  youtube_refresh_token?: string
 }

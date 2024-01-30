@@ -2,6 +2,7 @@ export const loadScript = (src: string) => {
   return new Promise((resolve) => {
     const script = document.createElement('script')
     script.setAttribute('async', '')
+    script.setAttribute('defer', '')
     script.onload = resolve
     script.setAttribute('src', src)
     document.head.appendChild(script)

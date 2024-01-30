@@ -8,6 +8,7 @@ const WRANGLER_ORIGIN = `http://localhost:8788`
 /**
  * CloudFlare Pages Vite Plugin
  * TODO: does not support /[wildcards].ts
+ * TODO: live reload does not always work
  */
 export default function cloudflarePages() {
   // Generate _routes.json from functions

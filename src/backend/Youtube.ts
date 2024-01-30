@@ -1,4 +1,5 @@
-import { getClientConfig } from './Google'
+import { fetchJSON } from '../services/Fetch'
+import { getGoogleConfig } from './Google'
 
 export interface YouTubeTokenResponse {
   access_token: string
@@ -6,6 +7,8 @@ export interface YouTubeTokenResponse {
   token_type: string
   scope: string
   refresh_token: string
+  error?: string
+  error_description?: string
 }
 
 export interface YouTubeTokenRefreshResponse {
@@ -16,7 +19,7 @@ export interface YouTubeTokenRefreshResponse {
 }
 
 export const getRefreshToken = async (authorizationCode: string) => {
-  const config = getClientConfig()
+  const config = getGoogleConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
 
@@ -25,20 +28,22 @@ export const getRefreshToken = async (authorizationCode: string) => {
   formData.append('client_secret', config.web.client_secret)
   formData.append('code', authorizationCode)
   formData.append('grant_type', 'authorization_code')
-  // TODO Looks like this redirect_uri isn't even used?
-  // formData.append('redirect_uri', 'https://shortsync.app/youtube-login-redirect') // use url.href?
+  // Undocumented fix for redirect_uri: https://stackoverflow.com/a/72365385
+  formData.append('redirect_uri', 'postmessage')
 
   const fetchOptions = { method: 'POST', body: formData }
 
-  const response = (await fetch(tokenUrl, fetchOptions).then((x) => x.json())) as YouTubeTokenResponse
+  const response = (await fetchJSON(tokenUrl, fetchOptions)) as YouTubeTokenResponse
 
-  // TODO how to handle errors?
+  if (response.error) {
+    throw new Error(`${response.error} - ${response.error_description}`)
+  }
 
   return response.refresh_token
 }
 
 export const refreshAccessToken = async (refreshToken: string) => {
-  const config = getClientConfig()
+  const config = getGoogleConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
 
