@@ -2,8 +2,6 @@ import { User } from '../types/DB'
 import LocalStorage from './LocalStorage'
 import { createGlobalSignal, createStoredGlobalSignal } from './Solid'
 
-// TODO does not log user in until I refresh the page
-
 // TODO when signed out, refresh the page. if page is for signed in users only then show a full page modal with a sign in button
 
 // Global user state

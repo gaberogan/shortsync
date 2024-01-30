@@ -32,6 +32,8 @@ export const onRequestPost = unauth(async (ctx) => {
     )
   )
 
+  // TODO convert upsert to a batch query to get updated user with refresh token
+
   return new Response(JSON.stringify(user), {
     headers: {
       'Set-Cookie': `token=${token}; path=/; secure; httponly; samesite=strict;`,

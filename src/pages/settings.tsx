@@ -4,13 +4,11 @@ import { user } from '../services/User'
 import { YoutubeAuthButton } from '../services/Youtube'
 
 export default function Settings() {
-  const me = user()
-
   return (
     <div>
       <div>Settings</div>
-      <Show when={me}>Logged in as {me!.email}</Show>
-      <Show when={!me}>Not logged in</Show>
+      <Show when={user()}>Logged in as {user()!.email}</Show>
+      <Show when={!user()}>Not logged in</Show>
       <GoogleSignInButton width={300} />
       <YoutubeAuthButton />
     </div>

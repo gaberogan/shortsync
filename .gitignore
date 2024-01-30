@@ -26,3 +26,4 @@ dist-ssr
 # Other
 .wrangler
 .dev.vars
+test.sql

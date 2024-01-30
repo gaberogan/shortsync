@@ -3,6 +3,7 @@ import { fetchJSON } from './Fetch'
 import { googleScriptLoaded } from './Google'
 import { setUser, user } from './User'
 import { User } from '../types/DB'
+import { Show } from 'solid-js'
 
 // TODO add disconnect YouTube endpoint
 
@@ -33,17 +34,19 @@ const requestYoutubeAuth = async () => {
 }
 
 export const YoutubeAuthButton = () => {
-  const me = user()
-  const connected = me?.youtube_refresh_token
-
-  if (connected) {
-    return <div class={style}>YouTube Connected as {me!.email}</div>
-  }
+  const isConnected = () => user()?.youtube_refresh_token
 
   return (
-    <div class={style} onClick={requestYoutubeAuth}>
-      Connect YouTube
-    </div>
+    <>
+      <Show when={isConnected()}>
+        <div class={style}>YouTube Connected as {user()!.email}</div>
+      </Show>
+      <Show when={!isConnected()}>
+        <div class={style} onClick={requestYoutubeAuth}>
+          Connect YouTube
+        </div>
+      </Show>
+    </>
   )
 }
 

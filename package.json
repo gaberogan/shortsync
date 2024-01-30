@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "migrate": "wrangler d1 execute shortsync-db --file=./migrations/1.sql --local",
-    "migrate:prod": "wrangler d1 execute shortsync-db --file=./migrations/1.sql"
+    "migrate:prod": "wrangler d1 execute shortsync-db --file=./migrations/1.sql",
+    "db:query": "wrangler d1 execute shortsync-db --file=./test.sql --local"
   },
   "devDependencies": {
     "@cfworker/uuid": "^1.12.4",
