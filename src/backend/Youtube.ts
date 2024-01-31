@@ -1,5 +1,8 @@
+import { parse } from 'cookie'
 import { fetchJSON } from '../services/Fetch'
 import { getGoogleConfig } from './Google'
+import { Channel } from '../types/DB'
+import { uuid } from '@cfworker/uuid'
 
 export interface YouTubeTokenResponse {
   access_token: string
@@ -18,7 +21,11 @@ export interface YouTubeTokenRefreshResponse {
   scope: string
 }
 
-export const getRefreshToken = async (authorizationCode: string) => {
+/**
+ * Exchange the authorization code for a refresh token
+ * See https://developers.google.com/identity/oauth2/web/guides/use-code-model
+ */
+export const getYoutubeTokens = async (authorizationCode: string) => {
   const config = getGoogleConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
@@ -39,9 +46,12 @@ export const getRefreshToken = async (authorizationCode: string) => {
     throw new Error(`${response.error} - ${response.error_description}`)
   }
 
-  return response.refresh_token
+  return response
 }
 
+/**
+ * Refresh the user's access token
+ */
 export const refreshAccessToken = async (refreshToken: string) => {
   const config = getGoogleConfig()
 
@@ -60,4 +70,42 @@ export const refreshAccessToken = async (refreshToken: string) => {
   // TODO how to handle errors?
 
   return response.access_token
+}
+
+type YoutubeChannelResponse = {
+  items: {
+    id: string
+    snippet: {
+      /** e.g. My Channel */
+      title: string
+      /** e.g. '@handle' */
+      customUrl: string
+      thumbnails: {
+        /** 88px */
+        default: { url: string }
+        /** 240px */
+        medium: { url: string }
+        /** 800px */
+        high: { url: string }
+      }
+    }
+  }[]
+}
+
+/**
+ * Get the user's youtube channel details
+ * See https://developers.google.com/youtube/v3/docs/channels/list
+ */
+export const getYoutubeChannel = async (accessToken: string) => {
+  const res: YoutubeChannelResponse = await fetchJSON(
+    'https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=id&maxResults=1&mine=true',
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json',
+      },
+    }
+  )
+
+  return res.items[0]
 }

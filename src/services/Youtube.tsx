@@ -11,7 +11,7 @@ const requestYoutubeAuth = async () => {
   await googleScriptLoaded
   const youtubeClient = google.accounts.oauth2.initCodeClient({
     client_id: '246222106209-qsh9tk43lr0do4k8eppfc5dfc9nldhj2.apps.googleusercontent.com',
-    scope: 'https://www.googleapis.com/auth/youtube.upload',
+    scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload',
     ux_mode: 'popup',
     login_hint: localStorage.getItem('loginHint') || undefined,
     callback: async (authResponse) => {
@@ -25,7 +25,7 @@ const requestYoutubeAuth = async () => {
         method: 'POST',
       })
 
-      // Update user with youtube_refresh_token: 'redacted'
+      // Update user channels
       setUser(user)
     },
   })
@@ -34,7 +34,7 @@ const requestYoutubeAuth = async () => {
 }
 
 export const YoutubeAuthButton = () => {
-  const isConnected = () => user()?.youtube_refresh_token
+  const isConnected = () => user()?.channels?.length
 
   return (
     <>

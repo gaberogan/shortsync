@@ -1,27 +1,39 @@
-import { getRefreshToken } from '../src/backend/Youtube'
+import { getYoutubeChannel, getYoutubeTokens } from '../src/backend/Youtube'
 import { auth } from '../src/backend/WorkerUtils'
-import { User } from '../src/types/DB'
-import { redactUser } from '../src/backend/User'
-
-// This follows YouTube's official OAuth 2.0 guide
-// See https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps
+import { insertOrReplaceQuery } from '../src/backend/DB'
+import { Channel } from '../src/types/DB'
+import { uuid } from '@cfworker/uuid'
+import { fetchUserWithChannelsRedacted } from '../src/backend/User'
 
 export const onRequestPost = auth(async (ctx, jwt) => {
   const url = new URL(ctx.request.url)
   const code = url.searchParams.get('code')!
 
-  // Exchange the authorization code for a refresh token
-  const refreshToken = await getRefreshToken(code)
+  const { refresh_token, access_token } = await getYoutubeTokens(code)
 
-  const email = jwt.email as string
+  const youtubeChannel = await getYoutubeChannel(access_token)
 
-  // Add youtube_refresh_token to user and return user
-  const [, query2] = await env.DB.batch([
-    env.DB.prepare('UPDATE USER SET youtube_refresh_token = ? WHERE email = ?').bind(refreshToken, email),
-    env.DB.prepare('SELECT * FROM user WHERE email = ? LIMIT 1').bind(email),
-  ])
+  // TODO use access_token to get channel name and image
+  // throw new Error('test')
 
-  const user = redactUser(query2.results[0] as User)
+  // Add the channel
+  await insertOrReplaceQuery<Channel>(
+    {
+      id: uuid(),
+      email: jwt.email as string,
+      platform: 'youtube',
+      name: youtubeChannel.snippet.title,
+      image: youtubeChannel.snippet.thumbnails.high.url,
+      data: JSON.stringify({
+        id: youtubeChannel.id,
+        handle: youtubeChannel.snippet.customUrl,
+        refreshToken: refresh_token,
+      }),
+    },
+    { table: 'channel' }
+  ).run()
 
+  // Return user
+  const user = await fetchUserWithChannelsRedacted(jwt.email as string)
   return new Response(JSON.stringify(user))
 })

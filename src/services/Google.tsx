@@ -6,6 +6,8 @@ import { fetchJSON } from './Fetch'
 import { user, setSessionExpiresAt, setUser } from './User'
 
 // TODO add delete account endpoint
+// TODO add ability to log out
+// TODO sometimes blank screen on login via custom domain
 
 // Google OneTap bug, color scheme must be light
 loadInlineCss(`body > #credential_picker_container { color-scheme: light }`)

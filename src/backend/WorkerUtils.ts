@@ -11,8 +11,10 @@ export const auth = (callback: (ctx: AnyCtx, jwt: JWTPayload) => Promise<Respons
   // @ts-ignore Make env a global variable
   globalThis.env = ctx.env
 
-  const cookie = parse(ctx.request.headers.get('Cookie') || '')
-  const token = cookie['token']
+  // Set request context to a global variable
+  env.ctx = ctx
+
+  const token = parse(ctx.request.headers.get('Cookie') || '')['token']
 
   if (!token) {
     return new Response('Not logged in', { status: 401 })
