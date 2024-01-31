@@ -1,5 +1,7 @@
 {
+  "exclude": ["node_modules", "dist", "public"],
   "compilerOptions": {
+    "baseUrl": ".",
     "types": ["vite/client"],
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
@@ -7,7 +9,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -16,6 +18,5 @@
     "noEmit": true,
     "noImplicitReturns": true,
     "skipLibCheck": true
-  },
-  "exclude": ["node_modules", "dist", "public"]
+  }
 }

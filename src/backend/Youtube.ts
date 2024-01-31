@@ -1,8 +1,5 @@
-import { parse } from 'cookie'
 import { fetchJSON } from '../services/Fetch'
 import { getGoogleConfig } from './Google'
-import { Channel } from '../types/DB'
-import { uuid } from '@cfworker/uuid'
 
 export interface YouTubeTokenResponse {
   access_token: string
