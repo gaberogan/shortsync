@@ -49,7 +49,7 @@ export const getYoutubeTokens = async (authorizationCode: string) => {
 /**
  * Refresh the user's access token
  */
-export const refreshAccessToken = async (refreshToken: string) => {
+export const refreshYoutubeAccessToken = async (refreshToken: string) => {
   const config = getGoogleConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
@@ -67,6 +67,15 @@ export const refreshAccessToken = async (refreshToken: string) => {
   // TODO how to handle errors?
 
   return response.access_token
+}
+
+type YoutubeRevokeResponse = {
+  error?: string
+  error_description?: string
+}
+
+export const revokeYoutubeAccess = (refreshToken: string): Promise<YoutubeRevokeResponse> => {
+  return fetchJSON(`https://accounts.google.com/o/oauth2/revoke?token=${refreshToken}`)
 }
 
 type YoutubeChannelResponse = {

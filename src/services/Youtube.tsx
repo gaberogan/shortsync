@@ -5,13 +5,11 @@ import { setUser, user } from './User'
 import { User } from '../types/DB'
 import { Show } from 'solid-js'
 
-// TODO add disconnect YouTube endpoint
-
 const requestYoutubeAuth = async () => {
   await googleScriptLoaded
   const youtubeClient = google.accounts.oauth2.initCodeClient({
     client_id: '246222106209-qsh9tk43lr0do4k8eppfc5dfc9nldhj2.apps.googleusercontent.com',
-    scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload',
+    scope: 'https://www.googleapis.com/auth/youtube',
     ux_mode: 'popup',
     login_hint: localStorage.getItem('loginHint') || undefined,
     callback: async (authResponse) => {
@@ -33,6 +31,11 @@ const requestYoutubeAuth = async () => {
   youtubeClient.requestCode()
 }
 
+export const revokeYoutubeAuth = async () => {
+  const user: User = await fetchJSON('/youtube-revoke')
+  setUser(user)
+}
+
 export const YoutubeAuthButton = () => {
   const isConnected = () => user()?.channels?.length
   const getYoutubeChannel = () => user()?.channels?.find((c) => c.platform === 'youtube')
@@ -40,10 +43,17 @@ export const YoutubeAuthButton = () => {
   return (
     <>
       <Show when={isConnected()}>
-        <div class={style}>YouTube Connected as {getYoutubeChannel()!.name}</div>
+        <div class={buttonStyle}>
+          <div>YouTube Connected as</div>
+          <img width={20} style="border-radius:20px" src={getYoutubeChannel()!.image} />
+          {getYoutubeChannel()!.name}
+        </div>
+        <div class={buttonStyle} onClick={revokeYoutubeAuth}>
+          Disconnect
+        </div>
       </Show>
       <Show when={!isConnected()}>
-        <div class={style} onClick={requestYoutubeAuth}>
+        <div class={buttonStyle} onClick={requestYoutubeAuth}>
           Connect YouTube
         </div>
       </Show>
@@ -51,7 +61,8 @@ export const YoutubeAuthButton = () => {
   )
 }
 
-const style = css`
+const buttonStyle = css`
+  margin: 8px 0;
   background: white;
   color: black;
   padding: 8px 12px;

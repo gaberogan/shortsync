@@ -1,7 +1,7 @@
 import { getYoutubeChannel, getYoutubeTokens } from '../src/backend/Youtube'
 import { auth } from '../src/backend/WorkerUtils'
 import { insertOrReplaceQuery } from '../src/backend/DB'
-import { Channel } from '../src/types/DB'
+import { Channel, ChannelData } from '../src/types/DB'
 import { uuid } from '@cfworker/uuid'
 import { fetchUserWithChannelsRedacted } from '../src/backend/User'
 
@@ -25,7 +25,7 @@ export const onRequestPost = auth(async (ctx, jwt) => {
         id: youtubeChannel.id,
         handle: youtubeChannel.snippet.customUrl,
         refreshToken: refresh_token,
-      }),
+      } as ChannelData),
     },
     { table: 'channel' }
   ).run()

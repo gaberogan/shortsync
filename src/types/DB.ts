@@ -21,6 +21,12 @@ export type Channel = {
   /** e.g. TechLinked */
   name: string
   image: string
-  /** Data required for upload or download e.g. refresh_token */
+  /** Data required for upload or download e.g. refreshToken */
   data: string
+}
+
+export type ChannelData = {
+  id: string
+  handle: string
+  refreshToken: string
 }

@@ -13,9 +13,9 @@ export const user = () => {
 export const setUser = _setUser
 export const mergeUser = (newUser: Partial<User>) => setUser({ ..._user()!, ...newUser })
 
-// Is the session expired, grace period expires session 5 minutes sooner
+// Is the session expired, grace period expires session 1 minute sooner
 const isSessionExpiredNow = ({ gracePeriodMs }: { gracePeriodMs?: number } = {}) => {
-  gracePeriodMs ??= 5 * 60 * 1000
+  gracePeriodMs ??= 1 * 60 * 1000
   const sessionExpiresAt = Number(LocalStorage.get('sessionExpiresAtMs'))
   const expired = sessionExpiresAt - gracePeriodMs < Date.now()
   return expired
