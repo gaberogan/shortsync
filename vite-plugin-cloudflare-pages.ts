@@ -18,6 +18,10 @@ export default function cloudflarePages() {
     exclude: [],
   }
 
+  // Generate _routes.json
+  if (!fs.existsSync('./dist')) {
+    fs.mkdirSync('./dist')
+  }
   fs.writeFileSync('./dist/_routes.json', JSON.stringify(routesJson))
 
   // Configure the Vite Proxy
