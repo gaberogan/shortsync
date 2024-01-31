@@ -35,11 +35,12 @@ const requestYoutubeAuth = async () => {
 
 export const YoutubeAuthButton = () => {
   const isConnected = () => user()?.channels?.length
+  const getYoutubeChannel = () => user()?.channels?.find((c) => c.platform === 'youtube')
 
   return (
     <>
       <Show when={isConnected()}>
-        <div class={style}>YouTube Connected as {user()!.email}</div>
+        <div class={style}>YouTube Connected as {getYoutubeChannel()!.name}</div>
       </Show>
       <Show when={!isConnected()}>
         <div class={style} onClick={requestYoutubeAuth}>

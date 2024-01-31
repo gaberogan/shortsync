@@ -7,6 +7,9 @@ export default function Home() {
       <div>Home</div>
       <Show when={user()}>Logged in as {user()!.email}</Show>
       <Show when={!user()}>Not logged in</Show>
+      <div>
+        <a href="/settings">Settings</a>
+      </div>
     </div>
   )
 }

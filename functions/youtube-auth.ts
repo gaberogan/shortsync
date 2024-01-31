@@ -13,9 +13,6 @@ export const onRequestPost = auth(async (ctx, jwt) => {
 
   const youtubeChannel = await getYoutubeChannel(access_token)
 
-  // TODO use access_token to get channel name and image
-  // throw new Error('test')
-
   // Add the channel
   await insertOrReplaceQuery<Channel>(
     {
