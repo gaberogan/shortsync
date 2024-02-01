@@ -4,17 +4,13 @@ import { JWTPayload } from 'jose'
 
 export type AnyCtx = EventContext<any, any, any>
 
-export const getEncodedJwt = (ctx: AnyCtx) => {
-  return parse(ctx.request.headers.get('Cookie') || '')['token']
-}
-
 /**
  * Wrap an authenticated endpoint
  */
 export const auth = (callback: (ctx: AnyCtx, jwt: JWTPayload) => Promise<Response>) => async (ctx: AnyCtx) => {
   initEnv(ctx)
 
-  const token = getEncodedJwt(ctx)
+  const token = parse(ctx.request.headers.get('Cookie') || '')['token']
 
   if (!token) {
     return new Response('Not logged in', { status: 401 })

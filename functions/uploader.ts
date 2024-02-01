@@ -1,9 +1,15 @@
-import { auth, getEncodedJwt } from '../src/backend/WorkerUtils'
+import { auth } from '../src/backend/WorkerUtils'
+import { getYoutubeAccessToken } from '@/backend/Youtube'
 
-// TODO implement full spec https://developers.google.com/youtube/v3/docs/videos/insert
-// TODO implement full spec https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
+// Endpoint follows these guides
+// https://developers.google.com/youtube/v3/docs/videos/insert
+// https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
+// TODO implement full spec
 
-export const onRequestPost = auth(async (ctx) => {
+export const onRequestPost = auth(async (ctx, jwt) => {
+  // Get new access token
+  const accessToken = await getYoutubeAccessToken(jwt.email as string)
+
   // Get video content-length and content-type
   const videoUrl = 'https://pub-062aaf7b73f6408c8b3c084f3141c880.r2.dev/test_video.mp4'
   const videoResponse = await fetch(videoUrl)
@@ -16,7 +22,7 @@ export const onRequestPost = auth(async (ctx) => {
   const requestUploadResponse = await fetch(requestUploadUrl, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${getEncodedJwt(ctx)}`,
+      Authorization: `Bearer ${accessToken}`,
       // 'Content-Length': 'Set automatically by Fetch API',
       'Content-Type': 'application/json; charset=UTF-8',
       'X-Upload-Content-Length': contentLength,
@@ -40,10 +46,11 @@ export const onRequestPost = auth(async (ctx) => {
   })
 
   const uploadUrl = requestUploadResponse.headers.get('Location')!
+
   const uploadResponse = await fetch(uploadUrl, {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${getEncodedJwt(ctx)}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Length': contentLength,
       'Content-Type': contentType,
     },

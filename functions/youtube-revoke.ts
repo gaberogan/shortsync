@@ -16,11 +16,11 @@ export const onRequestGet = auth(async (ctx, jwt) => {
 
   const { refreshToken } = JSON.parse(channel!.data) as ChannelData
 
-  const { error } = await revokeYoutubeAccess(refreshToken)
+  const revokeResponse = await revokeYoutubeAccess(refreshToken)
 
   // It might have already been revoked by the user, don't throw
-  if (error) {
-    console.error('Already revoked')
+  if ('error' in revokeResponse) {
+    console.error(`${revokeResponse.error} - ${revokeResponse.error_description}`)
   }
 
   // Delete the channel

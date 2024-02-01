@@ -1,22 +1,22 @@
+import { Channel } from '@/types/DB'
 import { fetchJSON } from '../services/Fetch'
+import { selectOneQuery } from './DB'
 import { getGoogleConfig } from './Google'
 
-export interface YouTubeTokenResponse {
-  access_token: string
-  expires_in: number
-  token_type: string
-  scope: string
-  refresh_token: string
-  error?: string
-  error_description?: string
+export type YoutubeErrorResponse = {
+  error: string
+  error_description: string
 }
 
-export interface YouTubeTokenRefreshResponse {
-  access_token: string
-  expires_in: number
-  token_type: string
-  scope: string
-}
+export type YouTubeTokenResponse =
+  | {
+      access_token: string
+      expires_in: number
+      token_type: string
+      scope: string
+      refresh_token: string
+    }
+  | YoutubeErrorResponse
 
 /**
  * Exchange the authorization code for a refresh token
@@ -39,17 +39,41 @@ export const getYoutubeTokens = async (authorizationCode: string) => {
 
   const response = (await fetchJSON(tokenUrl, fetchOptions)) as YouTubeTokenResponse
 
-  if (response.error) {
+  if ('error' in response) {
     throw new Error(`${response.error} - ${response.error_description}`)
   }
 
   return response
 }
 
+export type YouTubeTokenRefreshResponse =
+  | {
+      access_token: string
+      expires_in: number
+      token_type: string
+      scope: string
+    }
+  | YoutubeErrorResponse
+
 /**
  * Refresh the user's access token
  */
-export const refreshYoutubeAccessToken = async (refreshToken: string) => {
+export const getYoutubeAccessToken = async (email: string) => {
+  // Get Youtube channel refresh token
+
+  const channel = await selectOneQuery<Channel>({
+    table: 'channel',
+    where: { email, platform: 'youtube' },
+  }).first()
+
+  if (!channel) {
+    throw new Error('YouTube channel not found')
+  }
+
+  const { refreshToken } = JSON.parse(channel.data)
+
+  // Get new access token
+
   const config = getGoogleConfig()
 
   const tokenUrl = new URL('https://oauth2.googleapis.com/token')
@@ -57,22 +81,21 @@ export const refreshYoutubeAccessToken = async (refreshToken: string) => {
   const formData = new FormData()
   formData.append('client_id', config.web.client_id)
   formData.append('client_secret', config.web.client_secret)
-  formData.append('grant_type', 'authorization_code')
+  formData.append('grant_type', 'refresh_token')
   formData.append('refresh_token', refreshToken)
 
   const fetchOptions = { method: 'POST', body: formData }
 
-  const response = (await fetch(tokenUrl, fetchOptions).then((x) => x.json())) as YouTubeTokenRefreshResponse
+  const response: YouTubeTokenRefreshResponse = await fetchJSON(tokenUrl, fetchOptions)
 
-  // TODO how to handle errors?
+  if ('error' in response) {
+    throw new Error(`${response.error} - ${response.error_description}`)
+  }
 
   return response.access_token
 }
 
-type YoutubeRevokeResponse = {
-  error?: string
-  error_description?: string
-}
+type YoutubeRevokeResponse = {} | YoutubeErrorResponse
 
 export const revokeYoutubeAccess = (refreshToken: string): Promise<YoutubeRevokeResponse> => {
   return fetchJSON(`https://accounts.google.com/o/oauth2/revoke?token=${refreshToken}`)

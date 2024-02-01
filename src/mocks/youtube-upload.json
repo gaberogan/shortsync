@@ -1,0 +1,53 @@
+{
+  "kind": "youtube#video",
+  "etag": "Zlz1ACauYGvAqyKGWzkute4ehVE",
+  "id": "5wSeHWXMJTI",
+  "snippet": {
+    "publishedAt": "2024-02-01T18:35:25Z",
+    "channelId": "UCveUpdFcOQJ84jLJIUHQlPg",
+    "title": "Test video upload.",
+    "description": "Description of uploaded video.",
+    "thumbnails": {
+      "default": {
+        "url": "https://i9.ytimg.com/vi/5wSeHWXMJTI/default.jpg?sqp=CNTI760G&rs=AOn4CLC_VF1i-ISllI-OdG9P_ESHNaSoKw",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i9.ytimg.com/vi/5wSeHWXMJTI/mqdefault.jpg?sqp=CNTI760G&rs=AOn4CLAREHTKjsbqLiAjcUZG6qmWw6t85g",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i9.ytimg.com/vi/5wSeHWXMJTI/hqdefault.jpg?sqp=CNTI760G&rs=AOn4CLCfUmrmJsod-SHaEWTbiPbE7VrKdg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "channelTitle": "ChefGabe",
+    "tags": ["cool", "more keywords", "video"],
+    "categoryId": "22",
+    "liveBroadcastContent": "none",
+    "localized": {
+      "title": "Test video upload.",
+      "description": "Description of uploaded video."
+    }
+  },
+  "contentDetails": {
+    "duration": "P0D",
+    "dimension": "2d",
+    "definition": "sd",
+    "caption": "false",
+    "licensedContent": false,
+    "contentRating": {},
+    "projection": "rectangular",
+    "hasCustomThumbnail": false
+  },
+  "status": {
+    "uploadStatus": "uploaded",
+    "privacyStatus": "private",
+    "license": "youtube",
+    "embeddable": true,
+    "publicStatsViewable": true
+  }
+}
