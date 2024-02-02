@@ -150,6 +150,7 @@ type CategoryEmbeddings = {
 
 /**
  * Predicts the Youtube category for any given phrase
+ * $1.00 for about 16 million requests
  */
 export const predictYoutubeCategory = async (phrase: string) => {
   const phraseEmbedding = await fetchEmbedding(phrase)
