@@ -3,3 +3,6 @@ GOOGLE_CLIENT_SECRET_JSON=
 
 # Where the app is hosted
 ORIGIN=https://dev.shortsync.app
+
+# OpenAI API Key
+OPENAI_API_KEY=

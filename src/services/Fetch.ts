@@ -5,3 +5,11 @@ export const fetchText = (...args: Parameters<typeof fetch>) => {
 export const fetchJSON = <T>(...args: Parameters<typeof fetch>): Promise<T> => {
   return fetch(...args).then((res) => res.json())
 }
+
+export const fetchHeadAndAbort = async (url: string, options: RequestInit<RequestInitCfProperties>) => {
+  const controller = new AbortController()
+  options.signal = controller.signal
+  const response = await fetch(url, options)
+  controller.abort()
+  return response
+}
