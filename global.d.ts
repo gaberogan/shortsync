@@ -1,8 +1,10 @@
 interface Env {
-  DB: import('./src/backend/DB').D1TypedDatabase
+  DB: import('./backend/DB').D1TypedDatabase
   GOOGLE_CLIENT_SECRET_JSON: string
   ORIGIN: string
-  ctx: import('./src/backend/WorkerUtils').AnyCtx
+  OPENAI_API_KEY: string
+  YOUTUBE_API_KEY: string
+  ctx: import('./backend/WorkerUtils').AnyCtx
   [key: string]: string | null
 }
 

@@ -1,12 +1,13 @@
-import { scrapeTikTokUrl } from '@/backend/TikTok'
-import { auth } from '../src/backend/WorkerUtils'
-import { getYoutubeAccessToken } from '@/backend/Youtube'
+import { scrapeTikTokUrl } from 'backend/TikTok'
+import { auth } from '../backend/WorkerUtils'
+import { getYoutubeAccessToken } from 'backend/Youtube'
 import { fetchHeadAndAbort } from '@/services/Fetch'
+import { predictYoutubeCategory } from '../backend/Youtube'
 
 // Upload follows these guides
 // https://developers.google.com/youtube/v3/docs/videos/insert
 // https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
-// TODO implement full spec
+// TODO implement full spec + validation
 
 export const onRequestPost = auth(async (ctx, jwt) => {
   // Get new access token
@@ -33,7 +34,7 @@ export const onRequestPost = auth(async (ctx, jwt) => {
   const contentLength = videoResponse.headers.get('Content-Length')!
   const contentType = videoResponse.headers.get('Content-Type')!
 
-  // TODO make sure it counts as a Short
+  const categoryId = (await predictYoutubeCategory(title)).id
 
   // Request the upload URL
   const requestUploadUrl =
@@ -50,7 +51,7 @@ export const onRequestPost = auth(async (ctx, jwt) => {
     body: JSON.stringify({
       snippet: {
         title: title + ' #shorts',
-        categoryId: '22', // required // GET https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=us Authorization: Bearer [YOUR_ACCESS_TOKEN]
+        categoryId,
         description: '#shorts',
         tags,
       },

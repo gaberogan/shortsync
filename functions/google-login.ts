@@ -1,9 +1,9 @@
-import { verifyIdToken, getGoogleConfig } from '../src/backend/Google'
+import { verifyIdToken, getGoogleConfig } from '../backend/Google'
 import { uuid } from '@cfworker/uuid'
 import { User } from '../src/types/DB'
-import { unauth } from '../src/backend/WorkerUtils'
-import { upsertQuery } from '../src/backend/DB'
-import { fetchUserWithChannelsRedacted } from '../src/backend/User'
+import { unauth } from '../backend/WorkerUtils'
+import { upsertQuery } from '../backend/DB'
+import { fetchUserWithChannelsRedacted } from '../backend/User'
 
 export const onRequestPost = unauth(async (ctx) => {
   // Get JWT from URL

@@ -1,14 +1,17 @@
 import { Channel } from '@/types/DB'
-import { fetchJSON } from '../services/Fetch'
+import { fetchJSON } from '../src/services/Fetch'
 import { selectOneQuery } from './DB'
 import { getGoogleConfig } from './Google'
+import { fetchEmbedding } from './OpenAI'
+import categoryEmbeddings from '../data/category-embeddings.json'
+import { squaredEuclidean } from 'ml-distance-euclidean'
 
 export type YoutubeErrorResponse = {
   error: string
   error_description: string
 }
 
-export type YouTubeTokenResponse =
+export type YoutubeTokenResponse =
   | {
       access_token: string
       expires_in: number
@@ -37,7 +40,7 @@ export const getYoutubeTokens = async (authorizationCode: string) => {
 
   const fetchOptions = { method: 'POST', body: formData }
 
-  const response = (await fetchJSON(tokenUrl, fetchOptions)) as YouTubeTokenResponse
+  const response = (await fetchJSON(tokenUrl, fetchOptions)) as YoutubeTokenResponse
 
   if ('error' in response) {
     throw new Error(`${response.error} - ${response.error_description}`)
@@ -46,7 +49,7 @@ export const getYoutubeTokens = async (authorizationCode: string) => {
   return response
 }
 
-export type YouTubeTokenRefreshResponse =
+export type YoutubeTokenRefreshResponse =
   | {
       access_token: string
       expires_in: number
@@ -86,7 +89,7 @@ export const getYoutubeAccessToken = async (email: string) => {
 
   const fetchOptions = { method: 'POST', body: formData }
 
-  const response: YouTubeTokenRefreshResponse = await fetchJSON(tokenUrl, fetchOptions)
+  const response: YoutubeTokenRefreshResponse = await fetchJSON(tokenUrl, fetchOptions)
 
   if ('error' in response) {
     throw new Error(`${response.error} - ${response.error_description}`)
@@ -137,4 +140,28 @@ export const getYoutubeChannel = async (accessToken: string) => {
   )
 
   return res.items[0]
+}
+
+type CategoryEmbeddings = {
+  id: string
+  category: string
+  embedding: number[]
+}[]
+
+/**
+ * Predicts the Youtube category for any given phrase
+ */
+export const predictYoutubeCategory = async (phrase: string) => {
+  const phraseEmbedding = await fetchEmbedding(phrase)
+
+  // Find nearest category embedding using KNN
+  const categories = (categoryEmbeddings as CategoryEmbeddings)
+    .map(({ id, category, embedding }) => ({
+      id,
+      category,
+      distance: squaredEuclidean(embedding, phraseEmbedding),
+    }))
+    .sort((a, b) => a.distance - b.distance)
+
+  return categories[0]
 }

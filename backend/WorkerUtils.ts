@@ -45,7 +45,7 @@ const initEnv = (ctx: AnyCtx) => {
   }
 
   // Set request context to a global variable
-  env.ctx = ctx
+  // env.ctx = ctx
 
   // Override the DB batch function for better types
   // This is a TypeScript limitation, see ./DB.ts for type definitions

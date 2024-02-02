@@ -1,6 +1,6 @@
 // Based on https://github.com/kriasoft/web-auth-library/issues/17
 
-import { assert } from '../shared/assert'
+import { assert } from '../src/shared/assert'
 import { decodeProtectedHeader, jwtVerify, importX509 } from 'jose'
 
 export interface GoogleClientConfig {

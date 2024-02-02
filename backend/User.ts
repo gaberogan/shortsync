@@ -1,4 +1,4 @@
-import { Channel, User } from '../types/DB'
+import { Channel, User } from '../src/types/DB'
 import { selectManyQuery, selectOneQuery } from './DB'
 
 export const fetchUserWithChannelsRedacted = async (email: string) => {
