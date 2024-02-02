@@ -37,6 +37,9 @@ export const onRequestPost = auth(async (ctx, jwt) => {
   // Get new access token
   const accessToken = await getYoutubeAccessToken(jwt.email as string)
 
+  // TODO why is categoryId 22 working but 21 broken
+  // console.log(JSON.stringify({ categoryId }))
+
   // Submit video metadta + request upload URL
   const requestUploadResponse = await fetch(
     'https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status,contentDetails',
@@ -52,7 +55,7 @@ export const onRequestPost = auth(async (ctx, jwt) => {
       body: JSON.stringify({
         snippet: {
           title: title + ' #shorts',
-          categoryId,
+          categoryId: 22,
           description: '#shorts',
           tags,
         },
