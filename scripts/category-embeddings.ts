@@ -2,6 +2,10 @@ import { fetchJSON } from '@/services/Fetch'
 import { fetchEmbedding } from '../backend/OpenAI'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // Inject environment into env variable
 
@@ -33,7 +37,7 @@ const youtubeCategories: YoutubeCategoriesResponse = await fetchJSON(
 // Format youtube categories
 
 const categories = youtubeCategories.items.map((c) => ({
-  id: c.id,
+  id: Number(c.id),
   category: c.snippet.title,
 }))
 
