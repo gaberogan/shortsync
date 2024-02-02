@@ -34,9 +34,9 @@ export const onRequestPost = auth(async (ctx, jwt) => {
   const contentLength = videoResponse.headers.get('Content-Length')!
   const contentType = videoResponse.headers.get('Content-Type')!
 
-  const categoryId = (await predictYoutubeCategory(title)).id
+  const categoryId = (await predictYoutubeCategory(`${title} ${categories.join(' ')}`)).id
 
-  // Request the upload URL
+  // Submit video metadta + request upload URL
   const requestUploadUrl =
     'https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status,contentDetails' // allow user to set notifySubscribers
   const requestUploadResponse = await fetch(requestUploadUrl, {
