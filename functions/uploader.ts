@@ -38,6 +38,8 @@ export const onRequestPost = auth(async (ctx, jwt) => {
   const accessToken = await getYoutubeAccessToken(jwt.email as string)
 
   // TODO why is categoryId 22 working but 21 broken
+  // TODO why was video processing abandoned, see https://support.google.com/youtube/answer/10383400?hl=en#zippy=%2Cprocessing-abandoned
+  // Maybe it didn't download the TikTok video properly?
   // console.log(JSON.stringify({ categoryId }))
 
   // Submit video metadta + request upload URL

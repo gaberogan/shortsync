@@ -49,7 +49,7 @@ const initEnv = (ctx: AnyCtx) => {
 
   // Override the DB batch function for better types
   // This is a TypeScript limitation, see ./DB.ts for type definitions
-  if (firstInit) {
+  if (firstInit && env.DB) {
     // @ts-ignore
     env.DB.oldBatch = env.DB.batch
     env.DB.batch = function (...args) {
