@@ -24,6 +24,4 @@ dist-ssr
 *.sw?
 
 # Other
-.wrangler
-.dev.vars
-test.sql
+.env

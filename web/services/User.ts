@@ -1,4 +1,4 @@
-import { User } from '../types/DB'
+import { User } from '@common/types/DB'
 import LocalStorage from './LocalStorage'
 import { createGlobalSignal, createStoredGlobalSignal } from './Solid'
 

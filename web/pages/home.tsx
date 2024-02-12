@@ -1,5 +1,5 @@
 import { Show } from 'solid-js'
-import { user } from '../services/User'
+import { user } from '@web/services/User'
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
-import { fetchJSON } from '@/services/Fetch'
-import { fetchEmbedding } from '../backend/OpenAI'
+import { fetchJSON } from '@common/services/Fetch'
+import { fetchEmbedding } from '../api/services/OpenAI'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'

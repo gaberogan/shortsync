@@ -1,9 +1,9 @@
-import { getYoutubeChannel, getYoutubeTokens } from '../backend/Youtube'
-import { auth } from '../backend/WorkerUtils'
-import { insertOrReplaceQuery } from '../backend/DB'
-import { Channel, ChannelData } from '../src/types/DB'
+import { getYoutubeChannel, getYoutubeTokens } from '@api/services/Youtube'
+import { auth } from '@api/services/Auth'
+import { insertOrReplaceQuery } from '@api/services/DB'
+import { Channel, ChannelData } from '@common/types/DB'
 import { uuid } from '@cfworker/uuid'
-import { fetchUserWithChannelsRedacted } from '../backend/User'
+import { fetchUserWithChannelsRedacted } from '@api/services/User'
 
 export const onRequestPost = auth(async (ctx, jwt) => {
   const url = new URL(ctx.request.url)

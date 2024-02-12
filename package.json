@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "migrate": "wrangler d1 execute shortsync-db --file=./migrations/1.sql --local",
-    "db:query": "wrangler d1 execute shortsync-db --file=./test.sql --local",
+    "migrate": "TODO",
     "category-embeddings": "dotenvx run --env-file=.dev.vars -- tsx ./scripts/category-embeddings.ts",
     "debug-embeddings": "dotenvx run --env-file=.dev.vars -- tsx ./scripts/debug-embeddings.ts"
   },

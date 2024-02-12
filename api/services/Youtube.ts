@@ -1,9 +1,9 @@
-import { Channel } from '@/types/DB'
-import { fetchJSON } from '../src/services/Fetch'
+import { Channel } from '@common/types/DB'
+import { fetchJSON } from '@common/services/Fetch'
 import { selectOneQuery } from './DB'
 import { getGoogleConfig } from './Google'
 import { fetchEmbedding } from './OpenAI'
-import categoryEmbeddings from '../data/category-embeddings.json'
+import categoryEmbeddings from '@api/data/category-embeddings.json'
 import { squaredEuclidean } from 'ml-distance-euclidean'
 
 export type YoutubeErrorResponse = {

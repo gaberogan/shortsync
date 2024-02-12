@@ -3,7 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@api/*": ["api/*"],
+      "@common/*": ["common/*"],
+      "@typings/*": ["common/types/*"],
+      "@web/*": ["web/*"]
     },
     "types": ["vite/client"],
     "jsx": "preserve",

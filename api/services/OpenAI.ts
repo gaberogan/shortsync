@@ -1,4 +1,4 @@
-import { fetchJSON } from '../src/services/Fetch'
+import { fetchJSON } from '@common/services/Fetch'
 
 type EmbeddingResponse = {
   data: {

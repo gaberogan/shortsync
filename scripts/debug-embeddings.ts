@@ -1,4 +1,4 @@
-import { predictYoutubeCategory } from '../backend/Youtube'
+import { predictYoutubeCategory } from '../api/Youtube'
 
 // @ts-ignore
 globalThis.env = process.env

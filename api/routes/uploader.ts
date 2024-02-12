@@ -1,8 +1,8 @@
-import { scrapeTikTokUrl } from 'backend/TikTok'
-import { auth } from '../backend/WorkerUtils'
-import { getYoutubeAccessToken } from 'backend/Youtube'
-import { fetchHeadAndAbort } from '@/services/Fetch'
-import { predictYoutubeCategory } from '../backend/Youtube'
+import { scrapeTikTokUrl } from '@api/services/TikTok'
+import { auth } from '@api/services/Auth'
+import { getYoutubeAccessToken } from '@api/services/Youtube'
+import { fetchHeadAndAbort } from '@common/services/Fetch'
+import { predictYoutubeCategory } from '@api/services/Youtube'
 
 // Upload follows these guides
 // https://developers.google.com/youtube/v3/docs/videos/insert

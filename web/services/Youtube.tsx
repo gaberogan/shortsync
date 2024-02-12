@@ -1,8 +1,8 @@
 import { css } from '@emotion/css'
-import { fetchJSON } from './Fetch'
+import { fetchJSON } from '@common/services/Fetch'
 import { googleScriptLoaded } from './Google'
 import { setUser, user } from './User'
-import { User } from '../types/DB'
+import { User } from '@common/types/DB'
 import { Show } from 'solid-js'
 
 const requestYoutubeAuth = async () => {

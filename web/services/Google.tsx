@@ -1,8 +1,8 @@
 import { onMount } from 'solid-js'
 import { loadScript, loadInlineCss } from './Html'
 import { decodeJwt } from 'jose'
-import { User } from '../types/DB'
-import { fetchJSON } from './Fetch'
+import { User } from '@common/types/DB'
+import { fetchJSON } from '@common/services/Fetch'
 import { user, setSessionExpiresAt, setUser } from './User'
 
 // TODO add delete account endpoint

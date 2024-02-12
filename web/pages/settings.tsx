@@ -1,7 +1,7 @@
 import { Show } from 'solid-js'
-import { GoogleSignInButton } from '../services/Google'
-import { user } from '../services/User'
-import { YoutubeAuthButton } from '../services/Youtube'
+import { GoogleSignInButton } from '@web/services/Google'
+import { user } from '@web/services/User'
+import { YoutubeAuthButton } from '@web/services/Youtube'
 
 export default function Settings() {
   return (

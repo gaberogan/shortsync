@@ -1,8 +1,8 @@
-import { auth } from '../backend/WorkerUtils'
-import { deleteQuery, selectOneQuery } from '../backend/DB'
-import { Channel, ChannelData } from '../src/types/DB'
-import { fetchUserWithChannelsRedacted } from '../backend/User'
-import { revokeYoutubeAccess } from 'backend/Youtube'
+import { auth } from '@api/services/Auth'
+import { deleteQuery, selectOneQuery } from '@api/services/DB'
+import { Channel, ChannelData } from '@common/types/DB'
+import { fetchUserWithChannelsRedacted } from '@api/services/User'
+import { revokeYoutubeAccess } from '@api/services/Youtube'
 
 export const onRequestGet = auth(async (ctx, jwt) => {
   const channel = await selectOneQuery<Channel>({
