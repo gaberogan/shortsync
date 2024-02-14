@@ -1,4 +1,6 @@
-import { predictYoutubeCategory } from '../api/Youtube'
+// Run with npx tsx scripts/debug-embeddings.ts
+import 'dotenv/config'
+import { predictYoutubeCategory } from '@api/services/Youtube'
 
 // @ts-ignore
 globalThis.env = process.env

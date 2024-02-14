@@ -1,5 +1,7 @@
+// Run with npx tsx scripts/category-embeddings.ts
+import 'dotenv/config'
 import { fetchJSON } from '@common/services/Fetch'
-import { fetchEmbedding } from '../api/services/OpenAI'
+import { fetchEmbedding } from '@api/services/OpenAI'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'

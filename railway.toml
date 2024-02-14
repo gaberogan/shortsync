@@ -1,0 +1,8 @@
+# https://docs.railway.app/reference/config-as-code
+
+[build]
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm run start"
+# numReplicas = 2
