@@ -1,13 +1,15 @@
 import { verifyIdToken, getGoogleConfig } from '@api/services/Google'
-import { uuid } from '@cfworker/uuid'
 import { User } from '@common/types/DB'
 import { upsertQuery } from '@api/services/DB'
-import { fetchUserWithChannelsRedacted } from '@api/services/User'
+import { fetchRedactedUser } from '@api/services/User'
+import { auth } from '@api/services/Auth'
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
   method: 'POST',
-  url: 'google-login',
+  url: '/google-login',
   schema: {},
+  preHandler: [auth],
   handler: async (request, reply) => {
     // Get JWT from URL
     const url = new URL(request.url)
@@ -22,7 +24,7 @@ export default {
     // Create/update the user
     await upsertQuery<User>(
       {
-        id: uuid(),
+        id: uuidv4(),
         google_id: jwt.sub as string,
         email: jwt.email as string,
         image: jwt.picture as string,
@@ -33,9 +35,8 @@ export default {
       { table: 'user', uniqueKey: 'email', updateColumns: ['google_id', 'image', 'locale'] }
     ).run()
 
-    // Return user and create session
-    const user = await fetchUserWithChannelsRedacted(jwt.email as string)
+    reply.header('Set-Cookie', `token=${token}; path=/; secure; httponly; samesite=strict;`)
 
-    reply.code(200).header('Set-Cookie', `token=${token}; path=/; secure; httponly; samesite=strict;`).send(user)
+    return await fetchRedactedUser(jwt.email as string)
   },
 } as FastifyRouteOptions

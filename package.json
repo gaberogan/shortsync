@@ -13,8 +13,6 @@
     "migrate": "TODO"
   },
   "devDependencies": {
-    "@cfworker/uuid": "^1.12.4",
-    "@cloudflare/workers-types": "^4.20240117.0",
     "@emotion/css": "^11.11.2",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@iarna/toml": "^2.2.5",
@@ -22,11 +20,13 @@
     "@solidjs/router": "^0.10.10",
     "@types/cookie": "^0.6.0",
     "@types/google.accounts": "^0.0.14",
+    "@types/uuid": "^9.0.8",
     "concurrently": "^8.2.2",
     "cookie": "^0.6.0",
     "d1-orm": "^0.9.0",
     "dotenv": "^16.4.4",
     "fastify": "^4.26.1",
+    "fastify-plugin": "^4.5.1",
     "jose": "^5.2.0",
     "ml-distance-euclidean": "^2.0.0",
     "npm": "^10.4.0",
@@ -34,9 +34,9 @@
     "solid-js": "^1.8.12",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
+    "uuid": "^9.0.1",
     "vite": "^5.0.12",
     "vite-plugin-mkcert": "^1.17.3",
-    "vite-plugin-solid": "^2.9.1",
-    "wrangler": "3.22.1"
+    "vite-plugin-solid": "^2.9.1"
   }
 }

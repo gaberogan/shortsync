@@ -28,7 +28,7 @@ type YoutubeCategoriesResponse = {
 // Fetch youtube categories
 
 const youtubeCategories: YoutubeCategoriesResponse = await fetchJSON(
-  `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=US&key=${env.YOUTUBE_API_KEY}`,
+  `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=US&key=${process.env.YOUTUBE_API_KEY}`,
   {
     headers: {
       Accept: 'application/json',

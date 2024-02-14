@@ -54,7 +54,7 @@ export const selectManyQuery = <T extends Record<string, unknown>>({
   offset?: number
 }) => {
   const stmt = GenerateQuery<T>(QueryType.SELECT, table, { where, orderBy, limit, offset })
-  return env.DB.prepare<T>(stmt.query).bind(...stmt.bindings)
+  return process.env.DB.prepare<T>(stmt.query).bind(...stmt.bindings)
 }
 
 /**
@@ -62,7 +62,7 @@ export const selectManyQuery = <T extends Record<string, unknown>>({
  */
 export const insertQuery = <T extends Record<string, unknown>>(data: T, { table }: { table: string }) => {
   const stmt = GenerateQuery<T>(QueryType.INSERT, table, { data })
-  return env.DB.prepare(stmt.query).bind(...stmt.bindings)
+  return process.env.DB.prepare(stmt.query).bind(...stmt.bindings)
 }
 
 /**
@@ -70,7 +70,7 @@ export const insertQuery = <T extends Record<string, unknown>>(data: T, { table 
  */
 export const insertOrReplaceQuery = <T extends Record<string, unknown>>(data: T, { table }: { table: string }) => {
   const stmt = GenerateQuery<T>(QueryType.INSERT_OR_REPLACE, table, { data })
-  return env.DB.prepare(stmt.query).bind(...stmt.bindings)
+  return process.env.DB.prepare(stmt.query).bind(...stmt.bindings)
 }
 
 /**
@@ -90,7 +90,7 @@ export const updateQuery = <T extends Record<string, unknown>>(
     uniqueKey
   )
 
-  return env.DB.prepare(stmt.query).bind(...stmt.bindings)
+  return process.env.DB.prepare(stmt.query).bind(...stmt.bindings)
 }
 
 /**
@@ -111,7 +111,7 @@ export const upsertQuery = <T extends Record<string, unknown>>(
     uniqueKey
   )
 
-  return env.DB.prepare(stmt.query).bind(...stmt.bindings)
+  return process.env.DB.prepare(stmt.query).bind(...stmt.bindings)
 }
 
 /**
@@ -125,7 +125,7 @@ export const deleteQuery = <T extends Record<string, unknown>>({
   where: Partial<T>
 }) => {
   const stmt = GenerateQuery<T>(QueryType.DELETE, table, { where })
-  return env.DB.prepare<T>(stmt.query).bind(...stmt.bindings)
+  return process.env.DB.prepare<T>(stmt.query).bind(...stmt.bindings)
 }
 
 /**

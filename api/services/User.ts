@@ -1,9 +1,9 @@
 import { Channel, User } from '@common/types/DB'
 import { selectManyQuery, selectOneQuery } from './DB'
 
-export const fetchUserWithChannelsRedacted = async (email: string) => {
+export const fetchRedactedUser = async (email: string) => {
   // prettier-ignore
-  const [{ results: [user] }, { results: channels }] = await env.DB.batch(
+  const [{ results: [user] }, { results: channels }] = await process.env.DB.batch(
     selectOneQuery<User>({ table: 'user', where: { email: email } }),
     selectManyQuery<Channel>({ table: 'channel', where: { email: email } })
   )
