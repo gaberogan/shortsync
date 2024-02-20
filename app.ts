@@ -8,7 +8,9 @@ const main = async () => {
 
   await registerRoutes(fastify, './api/routes')
 
-  fastify.listen({ port: 3000 })
+  fastify.listen({ port: Number(process.env.PORT) })
+
+  console.log(`Running on port ${process.env.PORT}`)
 }
 
 main()

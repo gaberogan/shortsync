@@ -2,14 +2,12 @@ import { verifyIdToken, getGoogleConfig } from '@api/services/Google'
 import { User } from '@common/types/DB'
 import { upsertQuery } from '@api/services/DB'
 import { fetchRedactedUser } from '@api/services/User'
-import { auth } from '@api/services/Auth'
 import { v4 as uuidv4 } from 'uuid'
 
 export default {
   method: 'POST',
   url: '/google-login',
   schema: {},
-  preHandler: [auth],
   handler: async (request, reply) => {
     // Get JWT from URL
     const url = new URL(request.url)

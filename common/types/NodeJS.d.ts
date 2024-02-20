@@ -5,6 +5,7 @@ declare global {
       ORIGIN: string
       OPENAI_API_KEY: string
       YOUTUBE_API_KEY: string
+      PORT: string
       [key: string]: string | undefined
     }
   }

@@ -7,6 +7,7 @@
     "node": "20.x"
   },
   "scripts": {
+    "foo": "mkcert dev.shortsync.app",
     "dev": "rimraf dist && concurrently \"vite build --mode development --watch\" \"node scripts/wait-for-build.mjs && tsx watch app.ts\"",
     "build": "tsc && vite build",
     "start": "tsx app.ts",
@@ -28,6 +29,7 @@
     "fastify": "^4.26.1",
     "fastify-plugin": "^4.5.1",
     "jose": "^5.2.0",
+    "mkcert": "^3.2.0",
     "ml-distance-euclidean": "^2.0.0",
     "npm": "^10.4.0",
     "rimraf": "^5.0.5",
@@ -36,7 +38,6 @@
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",
     "vite": "^5.0.12",
-    "vite-plugin-mkcert": "^1.17.3",
     "vite-plugin-solid": "^2.9.1"
   }
 }
